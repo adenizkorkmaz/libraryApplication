@@ -19,4 +19,8 @@ public interface BookDao {
     public int deleteById(String id);
 
     public List<Book> listAll();
+
+    public void delete(Book book);
+
+    public void deleteAll();
 }

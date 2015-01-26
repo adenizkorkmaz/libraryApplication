@@ -57,4 +57,14 @@ public class BookDaoImpl implements BookDao {
         return mongoOperations.findAll(Book.class,Constants.BOOK);
     }
 
+    @Override
+    public void delete(Book book) {
+        mongoOperations.remove(book,"Book");
+    }
+
+    @Override
+    public void deleteAll() {
+        //todo:not implemented yet
+    }
+
 }

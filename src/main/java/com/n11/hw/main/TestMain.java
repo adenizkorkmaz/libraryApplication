@@ -2,6 +2,7 @@ package com.n11.hw.main;
 
 import com.n11.hw.dao.BookDao;
 import com.n11.hw.model.Book;
+import com.n11.hw.service.BookService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
@@ -15,7 +16,7 @@ public class TestMain {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 
-        BookDao bookDao = ctx.getBean("bookDao", BookDao.class);
+        BookService bookDao = ctx.getBean("bookService", BookService.class);
 
         Book p = new Book(null, "Kukla", "Ahmet Korkmaz");
 
@@ -30,26 +31,33 @@ public class TestMain {
         System.out.println("Generated ID="+p2.getId());
 
 
-        List<Book> books = bookDao.listAll();
+        List<Book> books = bookDao.getAllBook();
 
         for(Book bookk : books){
             System.out.println(bookk.toString());
         }
 
         //read
-        Book p1 = bookDao.getById(p.getId());
+        Book p1 = bookDao.getBook(p.getId());
         System.out.println("Retrieved Book="+p1);
 
         //update
         p1.setName("Beyoglu Rapsodisi");p1.setAuthor("Ahmet Deniz");
         bookDao.update(p1);
-        Book temp = bookDao.getById(p1.getId());
+        Book temp = bookDao.getBook(p1.getId());
         System.out.println("Retrieved Person after update="+temp);
 
         //delete
-        int count = bookDao.deleteById(p1.getId());
-        System.out.println("Number of records deleted="+count);
+        bookDao.delete(p1.getId());
+        System.out.println("Number of records deleted=");
 
+        List<Book> booksLast = bookDao.getAllBook();
+
+        for(Book bookk : booksLast){
+            bookDao.delete(bookk);
+        }
+
+        List<Book> booksLast2 = bookDao.getAllBook();
         ctx.close();
 
     }
