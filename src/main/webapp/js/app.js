@@ -65,18 +65,44 @@ function BookListController($scope, Book, $http) {
     };
 
     $scope.createBook = function (book) {
-        $scope.book.$save(function (book, headers) {
-            $scope.modalPanel = false;
-            toastr.success("Created");
-            $scope.books = Book.query();
-        });
+        if(validateInputs(book)){
+            $scope.book.$save(function (book, headers) {
+                $scope.modalPanel = false;
+                toastr.success("Created");
+                $scope.books = Book.query();
+            });
+        }
     }
 
     $scope.updateBook = function (book) {
-        $scope.book.$update(function() {
-            $scope.modalPanel = false;
-            $scope.editMode = false;
-            toastr.success("Updated");
-        });
+        if(validateInputs(book)){
+            $scope.book.$update(function() {
+                $scope.modalPanel = false;
+                $scope.editMode = false;
+                toastr.success("Updated");
+            });
+        }
     }
+
+    var validateInputs = function (book) {
+        if ($scope.book.title == 'undefined' || $scope.book.title == null || $scope.book.title.length <= 0) {
+            toastr.error('Please enter title');
+            return false;
+
+        }
+        if ($scope.book.author.firstName == 'undefined' || $scope.book.author.firstName == null || $scope.book.author.firstName.length <= 0)
+        {
+            toastr.error('Please enter author first name');
+            return false;
+        }
+
+        if ($scope.book.author.lastName == 'undefined' || $scope.book.author.lastName == null || $scope.book.author.lastName.length <= 0)
+        {
+            toastr.error('Please enter author last name');
+            return false;
+        }
+
+
+        return true;
+    };
 }
