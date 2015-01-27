@@ -1,6 +1,7 @@
 package com.n11.hw.main;
 
 import com.n11.hw.dao.BookDao;
+import com.n11.hw.model.Author;
 import com.n11.hw.model.Book;
 import com.n11.hw.service.BookService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,13 +19,13 @@ public class TestMain {
 
         BookService bookDao = ctx.getBean("bookService", BookService.class);
 
-        Book p = new Book(null, "Kukla", "Ahmet Korkmaz");
+        Book p = new Book("kukla",new Author("deniz","korkmaz"));
 
         //create
         bookDao.save(p);
         System.out.println("Generated ID="+p.getId());
 
-        Book p2 = new Book(null, "Kukla2", "Ahmet Korkmaz2");
+        Book p2 = new Book("hobarey",new Author("ahmet","kacar"));
 
         //create
         bookDao.save(p2);
@@ -42,7 +43,8 @@ public class TestMain {
         System.out.println("Retrieved Book="+p1);
 
         //update
-        p1.setName("Beyoglu Rapsodisi");p1.setAuthor("Ahmet Deniz");
+        p1.setTitle("Beyoglu Rapsodisi");
+        p1.setAuthor(new Author("Korkmaz","güner"));
         bookDao.update(p1);
         Book temp = bookDao.getBook(p1.getId());
         System.out.println("Retrieved Person after update="+temp);
