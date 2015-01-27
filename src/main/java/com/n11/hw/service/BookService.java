@@ -10,15 +10,15 @@ import java.util.List;
 public interface BookService {
     public Book getBook(String id);
 
-    public List<Book> getAllBook();
+    public List<Book> getAllBooks();
 
-    public void delete(String id);
+    public void deleteById(String id);
 
-    public void delete(Book book);
+    public void deleteBook(Book book);
 
-    public void save(Book book);
+    public void saveBook(Book book);
 
-    public void update(Book book);
+    public void updateBook(Book book);
 
     public void deleteAll();
 

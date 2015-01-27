@@ -19,32 +19,33 @@ public class BookServiceImpl implements BookService,Serializable {
     }
 
     @Override
-    public List<Book> getAllBook() {
+    public List<Book> getAllBooks() {
         return bookDao.listAll();
     }
 
     @Override
-    public void delete(String id) {
+    public void deleteById(String id) {
         bookDao.deleteById(id);
     }
 
     @Override
-    public void save(Book book) {
+    public void deleteBook(Book book) {
+        bookDao.delete(book);
+    }
+
+    @Override
+    public void saveBook(Book book) {
         bookDao.save(book);
     }
 
     @Override
-    public void update(Book book) {
+    public void updateBook(Book book) {
         bookDao.update(book);
     }
 
     @Override
     public void deleteAll() {
         //todo:not implemented yet
-    }
-
-    public void delete(Book book){
-        bookDao.delete(book);
     }
 
     public void setBookDao(BookDao bookDao) {

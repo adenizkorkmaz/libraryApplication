@@ -59,7 +59,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void delete(Book book) {
-        mongoOperations.remove(book,"Book");
+        mongoOperations.remove(book,Constants.BOOK);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.n11.hw.controller;
 
-import com.n11.hw.dao.BookDao;
 import com.n11.hw.model.Book;
+import com.n11.hw.service.BookService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,16 +21,16 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    private BookDao bookDao;
+    private BookService  bookService;
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<Book> list(){
-        return bookDao.listAll();
+        return bookService.getAllBooks();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Book find(@PathVariable("id") String id) {
-        Book book = this.bookDao.getById(id);
+        Book book = bookService.getBook(id);
         if (book == null) {
             System.out.print("hata");
         }
@@ -40,7 +40,7 @@ public class BookController {
     @RequestMapping(method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseStatus(HttpStatus.CREATED)
     public HttpEntity<?> create(@RequestBody Book book, @Value("#{request.requestURL}") StringBuffer parentUri) {
-        this.bookDao.save(book);
+        this.bookService.saveBook(book);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(childLocation(parentUri, book.getId()));
         return new HttpEntity<Object>(headers);
@@ -49,30 +49,22 @@ public class BookController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-        this.bookDao.deleteById(id);
+        this.bookService.deleteById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") String id, @RequestBody Book book) {
         book.setId(id);
-        this.bookDao.update(book);
+        this.bookService.updateBook(book);
     }
-
 
     private URI childLocation(StringBuffer parentUri, Object childId) {
         UriTemplate uri = new UriTemplate(parentUri.append("/{childId}").toString());
         return uri.expand(childId);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class BookNotFoundException extends RuntimeException {
-        public BookNotFoundException(Integer id) {
-            super("Book '" + id + "' not found.");
-        }
-    }
-
-    public void setBookDao(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
     }
 }
