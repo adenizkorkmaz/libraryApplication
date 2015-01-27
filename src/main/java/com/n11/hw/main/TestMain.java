@@ -50,16 +50,16 @@ public class TestMain {
         System.out.println("Retrieved Person after update="+temp);
 
         //delete
-        bookDao.delete(p1.getId());
-        System.out.println("Number of records deleted=");
-
-        List<Book> booksLast = bookDao.getAllBook();
-
-        for(Book bookk : booksLast){
-            bookDao.delete(bookk);
-        }
-
-        List<Book> booksLast2 = bookDao.getAllBook();
+//        bookDao.delete(p1.getId());
+//        System.out.println("Number of records deleted=");
+//
+//        List<Book> booksLast = bookDao.getAllBook();
+//
+//        for(Book bookk : booksLast){
+//            bookDao.delete(bookk);
+//        }
+//
+//        List<Book> booksLast2 = bookDao.getAllBook();
         ctx.close();
 
     }

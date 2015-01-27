@@ -29,10 +29,10 @@ public class BookController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Book find(@PathVariable("id") Integer id) {
-        Book book = this.bookDao.getById(id.toString());
+    public @ResponseBody Book find(@PathVariable("id") String id) {
+        Book book = this.bookDao.getById(id);
         if (book == null) {
-            throw new BookNotFoundException(id);
+            System.out.print("hata");
         }
         return book;
     }
@@ -48,14 +48,14 @@ public class BookController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Integer id) {
-        this.bookDao.deleteById(id.toString());
+    public void delete(@PathVariable("id") String id) {
+        this.bookDao.deleteById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") Integer id, @RequestBody Book book) {
-        book.setId(id.toString());
+    public void update(@PathVariable("id") String id, @RequestBody Book book) {
+        book.setId(id);
         this.bookDao.update(book);
     }
 
