@@ -17,6 +17,7 @@
         <!-- Spring -->
         <spring-framework.version>4.0.3.RELEASE</spring-framework.version>
         <spring-data-mongodb.version>1.5.2.RELEASE</spring-data-mongodb.version>
+        <jetty-server.version>9.0.3.v20130506</jetty-server.version>
 
     </properties>
 
@@ -70,6 +71,16 @@
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty-server.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty-server.version}</version>
         </dependency>
 
         <dependency>
