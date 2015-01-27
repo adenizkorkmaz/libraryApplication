@@ -2,24 +2,25 @@ package com.n11.hw.model;
 
 import org.springframework.data.annotation.Id;
 
+import java.io.Serializable;
+
 /**
  * Created by akorkmaz on 1/5/2015.
  */
-public class Book {
+public class Book implements Serializable {
 
     @Id
     private String id;
+    private String title;
+    private Author author;
 
-    private String name;
-
-    private String author;
-
-    public Book(String id, String name, String author) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
+    public Book() {
     }
 
+    public Book(String title, Author author) {
+        this.title = title;
+        this.author = author;
+    }
     public String getId() {
         return id;
     }
@@ -28,19 +29,19 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -48,8 +49,8 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", author=" + author.toString() +
                 '}';
     }
 }
