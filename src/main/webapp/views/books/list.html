@@ -50,7 +50,11 @@
                 <input type="text" ng-model="book.author.lastName" id="lastName"/>
             </div>
         </div>
-        <button id="save" class="btn btn-primary" ng-hide="editMode" ng-click="createBook(book)">Save</button>
+        <div class="control-group" ng-hide="editMode">
+            <div class="controls">
+                <div id="captcha" />
+            </div>
+        </div>
         <button type="button" class="btn btn-primary" ng-show="editMode" ng-click="updateBook(book)">Update</button>
     </form>
 </modal-dialog>

@@ -2,7 +2,7 @@ angular.module("sprang.services", ["ngResource"]).
     factory('Book', function ($resource) {
         var Book = $resource('/api/books/:bookId', {bookId: '@id'},
             {update: {method: 'PUT'}});
-        Book.prototype.isNew = function(){
+        Book.prototype.isNew = function () {
             return (typeof(this.id) === 'undefined');
         }
         return Book;
@@ -38,21 +38,39 @@ function BookListController($scope, Book, $http) {
     $scope.books = Book.query();
     $scope.editMode = false;
     $scope.modalPanel = false;
+    $scope.captcha = null;
 
-    $scope.deleteBook = function(book) {
-        book.$delete(function() {
+    $scope.deleteBook = function (book) {
+        book.$delete(function () {
             var dlg = confirm('Do you want to delete this record?');
-
             if (dlg) {
-                $scope.books.splice($scope.books.indexOf(book),1);
+                $scope.books.splice($scope.books.indexOf(book), 1);
                 toastr.success("Deleted");
-            }else{
+            } else {
                 //do nothing
             }
         });
-    }
+    };
+    $scope.generateCap = function () {
+        if ($scope.captcha == null) {
+            var captcha = new CAPTCHA({
+                selector: '#captcha',
+                width: 300,
+                height: 150,
+                onSuccess: function () {
+                    $scope.createBook();
 
-    $scope.openModal = function(){
+                }
+            });
+            $scope.captcha = captcha;
+        }
+
+        $scope.captcha.generate();
+
+    };
+
+    $scope.openModal = function () {
+        $scope.generateCap();
         $scope.modalPanel = true;
         $scope.book = new Book();
     };
@@ -65,7 +83,7 @@ function BookListController($scope, Book, $http) {
     };
 
     $scope.createBook = function (book) {
-        if(validateInputs(book)){
+        if (validateInputs(book)) {
             $scope.book.$save(function (book, headers) {
                 $scope.modalPanel = false;
                 toastr.success("Created");
@@ -75,8 +93,8 @@ function BookListController($scope, Book, $http) {
     }
 
     $scope.updateBook = function (book) {
-        if(validateInputs(book)){
-            $scope.book.$update(function() {
+        if (validateInputs(book)) {
+            $scope.book.$update(function () {
                 $scope.modalPanel = false;
                 $scope.editMode = false;
                 toastr.success("Updated");
@@ -90,14 +108,12 @@ function BookListController($scope, Book, $http) {
             return false;
 
         }
-        if ($scope.book.author.firstName == 'undefined' || $scope.book.author.firstName == null || $scope.book.author.firstName.length <= 0)
-        {
+        if ($scope.book.author.firstName == 'undefined' || $scope.book.author.firstName == null || $scope.book.author.firstName.length <= 0) {
             toastr.error('Please enter author first name');
             return false;
         }
 
-        if ($scope.book.author.lastName == 'undefined' || $scope.book.author.lastName == null || $scope.book.author.lastName.length <= 0)
-        {
+        if ($scope.book.author.lastName == 'undefined' || $scope.book.author.lastName == null || $scope.book.author.lastName.length <= 0) {
             toastr.error('Please enter author last name');
             return false;
         }

@@ -51,4 +51,8 @@ public class BookServiceImpl implements BookService,Serializable {
     public void setBookDao(BookDao bookDao) {
         this.bookDao = bookDao;
     }
+
+    public BookDao getBookDao() {
+        return bookDao;
+    }
 }
