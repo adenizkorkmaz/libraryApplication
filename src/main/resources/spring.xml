@@ -26,9 +26,7 @@
         <constructor-arg name="mongo" ref="mongo"/>
         <constructor-arg name="databaseName" value="heroku_app33545818"></constructor-arg>
         <constructor-arg name="userCredentials" ref="mongoCredentials"/>
-        <property name="writeConcern">
-            <util:constant static-field="com.mongodb.WriteConcern.NORMAL" />
-        </property>
+        <property name="writeConcern" value="com.mongodb.WriteConcern.NORMAL"/>
     </bean>
 
 
