@@ -20,7 +20,7 @@
                        write-fsync="true"/>
     </mongo:mongo>
 
-    <mongo:db-factory dbname="heroku_app33545818" mongo-ref="mongo" id="mongoDbFactory" username="heroku_app33545818" password="72a18nfa10vriekq3ran21to4p"/>
+    <mongo:db-factory dbname="heroku_app33545818" mongo-ref="mongo" id="mongoDbFactory" username="heroku_app33545818" password="72a18nfa10vriekq3ran21to4p" authentication-dbname="admin"/>
 
     <!-- <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
