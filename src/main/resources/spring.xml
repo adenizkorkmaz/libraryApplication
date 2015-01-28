@@ -7,35 +7,31 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
 
-    <mongo:mongo host="ds053448.mongolab.com" port="53448" id="mongo" >
-        <mongo:options connections-per-host="8"
-                       threads-allowed-to-block-for-connection-multiplier="4"
-                       connect-timeout="1000"
-                       auto-connect-retry="true"
-                       socket-keep-alive="true"
-                       socket-timeout="1500"
-                       slave-ok="true"
-                       write-number="1"
-                       write-timeout="0"
-                       write-fsync="true"/>
-    </mongo:mongo>
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongo" ref="mongo"/>
+        <constructor-arg name="databaseName" value="#{mongoUri.database}"/>
+        <constructor-arg name="userCredentials" ref="mongoCredentials"/>
+    </bean>
 
-    <mongo:db-factory dbname="heroku_app33545818" mongo-ref="mongo" id="mongoDbFactory" username="heroku_app33545818" password="72a18nfa10vriekq3ran21to4p" authentication-dbname="admin"/>
+    <bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">
+        <constructor-arg name="username" value="#{mongoUri.username}" />
+        <constructor-arg name="password" value="#{new java.lang.String(mongoUri.password)}" />
+    </bean>
+
+    <bean id="mongoUri" class="com.mongodb.MongoURI">
+        <constructor-arg value="mongodb://heroku_app33545818:72a18nfal0vriekq3ran2lto4p@ds053448.mongolab.com:53448/heroku_app33545818"/>
+    </bean>
+
+    <bean class="com.mongodb.Mongo" id="mongo">
+        <constructor-arg ref="mongoUri" />
+    </bean>
+
 
     <!-- <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
     </bean>
      -->
-    <bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">
-        <constructor-arg name="username" value="heroku_app33545818" />
-        <constructor-arg name="password" value="72a18nfa10vriekq3ran21to4p" />
-    </bean>
 
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongo" ref="mongo"/>
-        <constructor-arg name="databaseName" value="heroku_app33545818"></constructor-arg>
-        <constructor-arg name="userCredentials" ref="mongoCredentials"/>
-    </bean>
 
 
     <bean id="bookDao" class="com.n11.hw.dao.BookDaoImpl">
