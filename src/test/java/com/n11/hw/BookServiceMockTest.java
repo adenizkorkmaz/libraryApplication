@@ -15,7 +15,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 /**
- * Created by mozen on 1/21/2015.
+ * Created by akorkmaz on 1/6/2015.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BookServiceMockTest {
