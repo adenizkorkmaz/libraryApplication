@@ -41,21 +41,25 @@ public class BookServiceMockTest {
     @Test
     public void getAllBookTest() throws Exception {
         bookService.getAllBooks();
+        verify(bookService.getBookDao()).listAll();
     }
 
     @Test
     public void deleteBookTest() throws Exception {
         bookService.deleteBook(any(Book.class));
+        verify(bookService.getBookDao()).delete(any(Book.class));
     }
 
     @Test
     public void updateBookTest() throws Exception {
         bookService.updateBook(any(Book.class));
+        verify(bookService.getBookDao()).update(any(Book.class));
     }
 
     @Test
     public void deleteAllBookTest() throws Exception {
         bookService.deleteAll();
+        verify(bookService.getBookDao()).deleteAll();
     }
 
 }

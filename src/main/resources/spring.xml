@@ -26,14 +26,6 @@
         <constructor-arg ref="mongoUri" />
     </bean>
 
-
-    <!-- <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-    </bean>
-     -->
-
-
-
     <bean id="bookDao" class="com.n11.hw.dao.BookDaoImpl">
         <constructor-arg name="mongoOperations" ref="mongoTemplate"/>
     </bean>

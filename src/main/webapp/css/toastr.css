@@ -215,3 +215,5 @@
   font-weight: bold;
   font-family: 'arial', 'sans-serif';
 }
+
+.loading { border:1px solid #ddd; padding:20px; margin:40px 5px; width:80px;}

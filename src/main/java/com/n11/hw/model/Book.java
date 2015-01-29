@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import java.io.Serializable;
 
 /**
+ * Book Entity Class
+ *
  * Created by akorkmaz on 1/5/2015.
  */
 public class Book implements Serializable {

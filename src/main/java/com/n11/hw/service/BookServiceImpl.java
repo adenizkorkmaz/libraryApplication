@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Service Katmanı implemetasyonu
+ *
  * Created by akorkmaz on 1/26/2015.
  */
 public class BookServiceImpl implements BookService,Serializable {
@@ -45,7 +47,7 @@ public class BookServiceImpl implements BookService,Serializable {
 
     @Override
     public void deleteAll() {
-        //todo:not implemented yet
+        bookDao.deleteAll();
     }
 
     public void setBookDao(BookDao bookDao) {

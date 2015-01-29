@@ -32,9 +32,24 @@ angular.module("sprang", ["sprang.services"]).
             },
             template: "<div class='ng-modal' ng-show='show'><div class='ng-modal-overlay' ng-click='hideModal()'></div><div class='ng-modal-dialog' ng-style='dialogStyle'><div class='ng-modal-close' ng-click='hideModal()'>X</div><div class='ng-modal-dialog-content' ng-transclude></div></div></div>"
         };
+    }).directive('loading', function () {
+        return {
+            restrict: 'E',
+            replace:true,
+            template: '<div class="loading"><img src="/img/ajax-loader-.gif" width="50" height="50" />LOADING...</div>',
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val)
+                        $(element).show();
+                    else
+                        $(element).hide();
+                });
+            }
+        }
     });
 
 function BookListController($scope, Book, $http) {
+    $scope.loading = true;
     $scope.books = Book.query();
     $scope.editMode = false;
     $scope.modalPanel = false;
@@ -83,11 +98,13 @@ function BookListController($scope, Book, $http) {
     };
 
     $scope.createBook = function (book) {
+        $scope.loading = true;
         if (validateInputs(book)) {
             $scope.book.$save(function (book, headers) {
                 $scope.modalPanel = false;
                 toastr.success("Created");
                 $scope.books = Book.query();
+                $scope.loading = false;
             });
         }
     }
@@ -121,4 +138,6 @@ function BookListController($scope, Book, $http) {
 
         return true;
     };
+
+    $scope.loading = false;
 }

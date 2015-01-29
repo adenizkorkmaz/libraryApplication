@@ -42,15 +42,15 @@ public class BookControllerRequestTests {
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        this.repository.saveBook(new Book("Pro Spring", new Author("Rob", "Harrop")));
+        this.repository.saveBook(new Book("Test Book", new Author("Test Name", "Test Surname")));
     }
 
     @Test
     public void listBooks() throws Exception {
         mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Pro Spring"))
-                .andExpect(jsonPath("$[0].author.firstName").value("Rob"));
+                .andExpect(jsonPath("$[0].title").value("Test Book"))
+                .andExpect(jsonPath("$[0].author.firstName").value("Test Name"));
     }
     @Test
     @DirtiesContext
@@ -62,5 +62,40 @@ public class BookControllerRequestTests {
         assertNull(this.repository.getBook(book.getId()));
     }
 
+    @Test
+    public void getUnknownBook() throws Exception {
+        mockMvc.perform(get("/books/{id}", "100"))
+                .andExpect(status().isOk());
+    }
 
+    @Test
+    @DirtiesContext
+    public void createBook() throws Exception {
+        Book book = new Book("Pro Struts", new Author("Rob", "Harrop"));
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(book);
+        mockMvc.perform(post("/books")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        List<Book> booklist = repository.getAllBooks();
+        book = booklist.get(booklist.size()-1);
+        assertNotNull(this.repository.getBook(book.getId()));
+    }
+
+    @Test
+    @DirtiesContext
+    public void updateBook() throws Exception {
+        Book book = new Book("Deniz", new Author("Deniz", "Korkmaz"));
+        List<Book> booklist = repository.getAllBooks();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(book);
+        mockMvc.perform(put("/books/{id}", booklist.get(0).getId())
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+        assertEquals("Deniz", this.repository.getBook(booklist.get(0).getId()).getTitle());
+    }
 }
