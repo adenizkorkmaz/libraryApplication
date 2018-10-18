@@ -6,3 +6,6 @@ To run the app with jetty server simply run the fallowing command:
 
 To access to live demo on heroku go to fallowing link:
     https://damp-fjord-9576.herokuapp.com
+    
+    
+the line will be reverted
